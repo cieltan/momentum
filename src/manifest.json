@@ -1,5 +1,5 @@
 {
-    "name": "Ikuzo",
+    "name": "Momentum",
     "manifest_version": 2,
     "icons": {},
     "permissions": ["storage", "clipboardWrite"],
