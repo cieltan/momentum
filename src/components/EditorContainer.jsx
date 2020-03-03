@@ -5,9 +5,18 @@ import { Editor } from "react-draft-wysiwyg";
 import styled from "styled-components";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
+import SaveIcon from "./icons/addbutton.svg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
+const SaveIconWrapper = styled.div`
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    fill: #333f58;
+`;
+
 const MyEditorWrapper = styled.div`
+    position: relative;
     height: 50rem;
     min-width: 45.5rem;
     padding: 10px;
@@ -31,6 +40,7 @@ export default class EditorContainer extends Component {
     };
 
     onSave = editorState => {
+        console.log("fired");
         localStorage.setItem(
             "test",
             draftToHtml(convertToRaw(editorState.getCurrentContent()))
@@ -57,8 +67,10 @@ export default class EditorContainer extends Component {
                             },
                         }}
                     />
+                    <SaveIconWrapper onClick={() => this.onSave(editorState)}>
+                        <SaveIcon style={{ height: "40px", width: "40px" }} />
+                    </SaveIconWrapper>
                 </MyEditorWrapper>
-                <button onClick={() => this.onSave(editorState)}>Save</button>
             </>
         );
     }

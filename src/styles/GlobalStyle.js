@@ -7,6 +7,10 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  svg {
+    pointer-events: none;
+  }
+
   body {
     align-items: center;
     background: ${({ theme }) => theme.body};
