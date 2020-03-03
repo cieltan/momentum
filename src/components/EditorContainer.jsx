@@ -8,8 +8,8 @@ import htmlToDraft from "html-to-draftjs";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const MyEditorWrapper = styled.div`
-    max-width: 40rem;
     height: 50rem;
+    min-width: 45.5rem;
     padding: 10px;
     overflow: auto;
     background-color: white;
@@ -30,26 +30,36 @@ export default class EditorContainer extends Component {
         });
     };
 
+    onSave = editorState => {
+        localStorage.setItem(
+            "test",
+            draftToHtml(convertToRaw(editorState.getCurrentContent()))
+        );
+    };
+
     render() {
         const { editorState } = this.state;
         return (
-            <MyEditorWrapper>
-                <Editor
-                    editorState={editorState}
-                    onEditorStateChange={this.onEditorStateChange}
-                    toolbar={{
-                        inline: { inDropdown: true },
-                        list: { inDropdown: true },
-                        textAlign: { inDropdown: true },
-                        link: { inDropdown: true },
-                        history: { inDropdown: true },
-                        image: {
-                            // uploadCallback: uploadImageCallBack,
-                            alt: { present: true, mandatory: true },
-                        },
-                    }}
-                />
-            </MyEditorWrapper>
+            <>
+                <MyEditorWrapper>
+                    <Editor
+                        editorState={editorState}
+                        onEditorStateChange={this.onEditorStateChange}
+                        toolbar={{
+                            inline: { inDropdown: true },
+                            list: { inDropdown: true },
+                            textAlign: { inDropdown: true },
+                            link: { inDropdown: true },
+                            history: { inDropdown: true },
+                            image: {
+                                // uploadCallback: uploadImageCallBack,
+                                alt: { present: true, mandatory: true },
+                            },
+                        }}
+                    />
+                </MyEditorWrapper>
+                <button onClick={() => this.onSave(editorState)}>Save</button>
+            </>
         );
     }
 }
