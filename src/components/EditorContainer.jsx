@@ -42,11 +42,21 @@ export default class EditorContainer extends Component {
     };
 
     onSave = editorState => {
-        console.log("fired");
-        localStorage.setItem(
-            "test",
+        let storage = localStorage.getItem("momentum");
+        if (!storage) {
+            storage = [];
+        } else {
+            storage = JSON.parse(storage);
+        }
+        const content = JSON.stringify(
             draftToHtml(convertToRaw(editorState.getCurrentContent()))
         );
+        const item = {
+            id: 0,
+            content,
+        };
+        storage.push(content);
+        localStorage.setItem("storage", JSON.stringify(storage));
         this.notify();
     };
 
