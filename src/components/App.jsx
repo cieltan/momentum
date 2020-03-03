@@ -1,13 +1,43 @@
-import React from "react";
+import React, { Component } from "react";
 import { withTheme } from "styled-components";
+import Snippet from "./Snippet";
 import EditorContainer from "./EditorContainer";
 
-const App = props => {
-    return (
-        <div>
-            <EditorContainer />
-        </div>
-    );
-};
+export default class App extends Component {
+    constructor() {
+        super();
+        this.state = {
+            notes: {},
+        };
+    }
 
-export default App;
+    componentDidMount() {
+        this.loadNotes();
+    }
+
+    loadNotes = () => {
+        let notes = localStorage.getItem("storage");
+        if (!notes) {
+            localStorage.setItem("storage", JSON.stringify({}));
+            localStorage.setItem("count", String(0));
+        } else {
+            notes = JSON.parse(localStorage.getItem("storage"));
+        }
+        this.setState({
+            notes,
+        });
+    };
+    render() {
+        let { notes } = this.state;
+        notes = Object.entries(notes) || [];
+        return (
+            <div>
+                {<EditorContainer />}
+                {notes.map(note => {
+                    const [id, content] = note;
+                    return <Snippet key={note} content={content}></Snippet>;
+                })}
+            </div>
+        );
+    }
+}

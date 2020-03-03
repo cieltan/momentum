@@ -32,6 +32,7 @@ export default class EditorContainer extends Component {
         super(props);
         this.state = {
             editorState: EditorState.createEmpty(),
+            newEntry: true,
         };
     }
 
@@ -42,21 +43,20 @@ export default class EditorContainer extends Component {
     };
 
     onSave = editorState => {
-        let storage = localStorage.getItem("momentum");
-        if (!storage) {
-            storage = [];
-        } else {
-            storage = JSON.parse(storage);
-        }
+        const { newEntry } = this.state;
+        let storage = localStorage.getItem("storage");
+        if (!storage) storage = {};
+        else storage = JSON.parse(storage);
         const content = JSON.stringify(
             draftToHtml(convertToRaw(editorState.getCurrentContent()))
         );
-        const item = {
-            id: 0,
-            content,
-        };
-        storage.push(content);
+        let count = localStorage.getItem("count");
+        if (newEntry) {
+            count = String(Number(count) + 1);
+            storage[count] = content;
+        }
         localStorage.setItem("storage", JSON.stringify(storage));
+        localStorage.setItem("count", count);
         this.notify();
     };
 
