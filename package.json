@@ -1,5 +1,5 @@
 {
-  "name": "Momentum",
+  "name": "momentum",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Billy Tan",
@@ -20,6 +20,7 @@
     "react-draft-wysiwyg": "^1.14.4",
     "react-is": "^16.13.0",
     "react-router-dom": "^5.1.2",
+    "react-toastify": "^5.5.0",
     "styled-components": "^5.0.1"
   },
   "devDependencies": {

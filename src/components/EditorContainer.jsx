@@ -6,6 +6,8 @@ import styled from "styled-components";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
 import SaveIcon from "./icons/addbutton.svg";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const SaveIconWrapper = styled.div`
@@ -45,7 +47,10 @@ export default class EditorContainer extends Component {
             "test",
             draftToHtml(convertToRaw(editorState.getCurrentContent()))
         );
+        this.notify();
     };
+
+    notify = () => toast("Note has been saved.");
 
     render() {
         const { editorState } = this.state;
@@ -71,6 +76,7 @@ export default class EditorContainer extends Component {
                         <SaveIcon style={{ height: "40px", width: "40px" }} />
                     </SaveIconWrapper>
                 </MyEditorWrapper>
+                <ToastContainer hideProgressBar={true} />
             </>
         );
     }
