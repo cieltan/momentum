@@ -53,7 +53,7 @@ export default class EditorContainer extends Component {
         let count = localStorage.getItem("count");
         if (newEntry) {
             count = String(Number(count) + 1);
-            storage[count] = content;
+            storage[count] = { content };
         }
         localStorage.setItem("storage", JSON.stringify(storage));
         localStorage.setItem("count", count);

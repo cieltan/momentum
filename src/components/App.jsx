@@ -34,8 +34,8 @@ export default class App extends Component {
             <div>
                 {<EditorContainer />}
                 {notes.map(note => {
-                    const [id, content] = note;
-                    return <Snippet key={note} content={content}></Snippet>;
+                    const [id, data] = note;
+                    return <Snippet key={note} data={data}></Snippet>;
                 })}
             </div>
         );
