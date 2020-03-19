@@ -8,6 +8,7 @@ export default class App extends Component {
         super();
         this.state = {
             notes: {},
+            note: null,
         };
     }
 
@@ -23,20 +24,29 @@ export default class App extends Component {
         } else {
             notes = JSON.parse(localStorage.getItem("storage"));
         }
-        this.setState({
-            notes,
-        });
+        this.setState(
+            {
+                notes,
+            },
+            () => {
+                const { notes } = this.state;
+                let length = Object.keys(notes).length;
+                let random = Math.ceil(Math.random() * length);
+                this.setState({ note: notes[random] });
+            }
+        );
     };
+
     render() {
-        let { notes } = this.state;
+        let { notes, note } = this.state;
         notes = Object.entries(notes) || [];
         return (
             <div>
-                {<EditorContainer />}
-                {notes.map(note => {
+                {/* {notes.map(note => {
                     const [id, data] = note;
                     return <Snippet key={note} data={data}></Snippet>;
-                })}
+                })} */}
+                {note && <Snippet data={note}></Snippet>}
             </div>
         );
     }

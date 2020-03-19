@@ -6,8 +6,13 @@ const SnippetWrapper = styled.div``;
 
 const Snippet = props => {
     const { data } = props;
-    const { content } = data;
-    return <SnippetWrapper>{parse(JSON.parse(content))}</SnippetWrapper>;
+    const { content, title } = data;
+    return (
+        <SnippetWrapper>
+            <h1>{title}</h1>
+            {parse(JSON.parse(content))}
+        </SnippetWrapper>
+    );
 };
 
 export default Snippet;

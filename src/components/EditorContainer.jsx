@@ -5,6 +5,7 @@ import { Editor } from "react-draft-wysiwyg";
 import styled from "styled-components";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
+import Title from "./Title";
 import SaveIcon from "./icons/addbutton.svg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -19,8 +20,8 @@ const SaveIconWrapper = styled.div`
 
 const MyEditorWrapper = styled.div`
     position: relative;
-    height: 50rem;
     min-width: 45.5rem;
+    height: 25rem;
     padding: 10px;
     overflow: auto;
     background-color: white;
@@ -32,6 +33,7 @@ export default class EditorContainer extends Component {
         super(props);
         this.state = {
             editorState: EditorState.createEmpty(),
+            title: "",
             newEntry: true,
         };
     }
@@ -42,8 +44,13 @@ export default class EditorContainer extends Component {
         });
     };
 
+    onTitleChange = event => {
+        let name = event.target.name;
+        this.setState({ [name]: event.target.value });
+    };
+
     onSave = editorState => {
-        const { newEntry } = this.state;
+        const { newEntry, title } = this.state;
         let storage = localStorage.getItem("storage");
         if (!storage) storage = {};
         else storage = JSON.parse(storage);
@@ -53,7 +60,7 @@ export default class EditorContainer extends Component {
         let count = localStorage.getItem("count");
         if (newEntry) {
             count = String(Number(count) + 1);
-            storage[count] = { content };
+            storage[count] = { content, title: this.state.title };
         }
         localStorage.setItem("storage", JSON.stringify(storage));
         localStorage.setItem("count", count);
@@ -66,6 +73,10 @@ export default class EditorContainer extends Component {
         const { editorState } = this.state;
         return (
             <>
+                <Title
+                    title={this.state.title}
+                    onTitleChange={this.onTitleChange}
+                />
                 <MyEditorWrapper>
                     <Editor
                         editorState={editorState}
